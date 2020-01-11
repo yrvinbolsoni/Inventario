@@ -1,0 +1,185 @@
+﻿@model IntraGriegHomolog.Models.CAD_COLABORADOR
+
+@{
+    /**/
+
+    ViewBag.Title = "Editar";
+}
+
+<h2 id="testejs">Editar</h2>
+
+<script>
+
+    //window.onload = function () {
+    //    // códigos JavaScript a serem executados quando a página carregar
+    //    var empresa = document.getElementById("emp").value;
+    //    ValorDrop(empresa);
+    //}
+
+
+    // nome para o ajax URL => /Inventario
+    // nome para o ajax URL Develop => /Colaborador/
+
+    var url = "/Colaborador/getDepartment?p=";
+
+    function ValorDrop(valor) {  /// pesquisa drop ajax
+        $.ajax({
+            type: "GET",
+            url: "/Inventario/Colaborador/getDepartment?p="+valor,
+            data: "{}",
+            success: function (data) {
+                var row = '<option value">Selecione um Departamentos</option>';
+                for (var i = 0; i < data.length; i++) {
+                    row += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                }
+                $("#dept").html(row);
+                RamalDrop(valor);
+            }
+        });
+
+        function RamalDrop(EmpresaID) {
+            $.ajax({
+                type: "GET",
+                url: "/Inventario/Colaborador/GetRamalPorEmpresa?p=" + EmpresaID,
+                data: "{}",
+                success: function (data) {
+                    var row = '<option value >Sem Ramal</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        row += '<option value="' + data[i].Ramal + '">' + data[i].Ramal + '</option>';
+                    }
+                    $("#ramal").html(row);
+                    DeskPorEmpresa(EmpresaID);
+                }
+            });
+        }
+
+        function DeskPorEmpresa(EmpresaID) {
+            $.ajax({
+                type: "GET",
+                url: "/Inventario/Colaborador/GetDeskPorEmp?p=" + EmpresaID,
+                data: "{}",
+                success: function (data) {
+                    var row = '<option value >Sem Desktop</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        row += '<option value="' + data[i].Id + '">' + data[i].Identificador + '</option>';
+                    }
+                    $("#desktop").html(row);
+                }
+            });
+        }
+
+    }
+</script>
+
+
+@if (TempData["erro"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        <span style="color:red" class="glyphicon glyphicon-alert"></span>
+        <span style="color:black">  @TempData["erro"]  </span>
+
+    </div>
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Colaborador</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.passwd, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.passwd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.passwd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.emp, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("emp", null, htmlAttributes: new { @class = "form-control", @onchange = "ValorDrop(this.value)" })
+                @Html.ValidationMessageFor(model => model.emp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dept, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("dept", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.dept, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ramal, "Ramal", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("ramal", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ramal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.desktop, "Desktop", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("desktop", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.desktop, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo_u, "Tipo Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("tipo_u", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipo_u, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("sataus", htmlAttributes: new { @class = "control-label col-md-2 " })
+            <div class="col-md-4">
+                @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.DropDownSituacao, new { @class = "form-control", @id = "status" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+        }
+
+        <div>
+            @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }

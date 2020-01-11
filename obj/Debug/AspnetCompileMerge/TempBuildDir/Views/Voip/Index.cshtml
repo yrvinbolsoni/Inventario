@@ -1,0 +1,110 @@
+﻿@model IEnumerable<IntraGriegHomolog.Models.ViewModels.VoipColaboradorViewModel>
+
+@{
+    ViewBag.Title = "Voip";
+}
+<h2>Controle de VOIP</h2>
+
+@if (TempData["erro"] != null)
+{
+    <div class="@TempData["TypeErro"]" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span style="color:black">*  @TempData["erro"]  </span>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        @*// nome para o ajax URL => /Ti/Inventario  *@
+
+        function ValorDrop(valor) {  /// pesquisa drop ajax
+            $.ajax({
+                type: "GET",
+                url: "//Ti/InventarioVoip/getDepartment?p=" + valor,
+                data: "{}",
+                success: function (data) {
+                    var row = '<option value="-1">Todas os Departamentos</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        row += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                    }
+                    $("#departmentsDropdown").html(row);
+                }
+            });
+        }
+    </script>
+}
+
+<hr />
+@using (Html.BeginForm("Index", "Voip", FormMethod.Post))
+{
+    <table>
+        @Html.AntiForgeryToken()
+        <tr>
+            <th style="padding-right: 10px;"> @Html.DropDownList("emp", (IEnumerable<SelectListItem>)ViewBag.emp, new { @class = "form-control", @id = "emp", @onchange = "ValorDrop(this.value)" })  </th>
+            <th style="padding-right: 10px;"> <select class="form-control" id="departmentsDropdown" name="departmentsDropdown"><option value="-1">Todas os Departamentos</option></select>    </th>
+            <th style="padding-right: 10px;"> @Html.Editor("Ramal", new { htmlAttributes = new { @class = "form-control", @placeholder = "Ramal", @type = "number" } })</th>
+            <th style="padding-right: 10px;"> @Html.Editor("UserName", new { htmlAttributes = new { @class = "form-control", @placeholder = "UserName" } })          </th>
+            <th style="padding-right: 10px;"> <button type="submit" class="glyphicon glyphicon-search  btn btn-primary btn-sm"></button>                            </th>
+        </tr>
+    </table>
+    <hr />
+}
+@Html.ActionLink(" Novo", "Create", null, new { @class = "glyphicon glyphicon-plus btn btn-primary btn-sm" })
+<br /><br />
+
+<div style="display:@(Model.Count() > 0 ?"block":"none")">
+
+    <table class="table table-hover ">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.empresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.departamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ramal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.passwd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ip)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="@(item.situacao.Equals(2)?"danger":"")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.empresa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.departamento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ramal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.passwd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ip)
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "Edit", new { id = item.ramal }, new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Historico", "Historico", new { id = item.ramal }, new { @class = " btn btn-primary btn-sm" })
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

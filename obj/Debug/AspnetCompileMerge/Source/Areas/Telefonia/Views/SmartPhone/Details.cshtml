@@ -1,0 +1,148 @@
+﻿@model IntraGriegHomolog.Models.IN_SMARTPHONE
+
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<h2>Detalhes</h2>
+<div class="modal fade" id="VerNotas" tabindex="-1" role="dialog" aria-labelledby="Vizualizar Notas Fiscais e Termos">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Vizualizar Notas Fiscais e Termos</h4>
+            </div>
+            <div class="modal-body">
+                @if (ViewBag.Termo != null || ViewBag.Notas != null)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome do arquivo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.Termo != null)
+                            {
+                                <tr class="table-active">
+                                    <td>@Html.ActionLink((string)ViewBag.Termo.TERM_NAME, "MostrarTermo", new { id = Model.id }, new { @class = " ", @target = "_blank" }) </td>
+                                </tr>
+                            }
+
+                            @if (ViewBag.Notas != null)
+                            {
+                                foreach (var n in ViewBag.Notas)
+                                {
+                                    <tr>
+                                        <td>@Html.ActionLink((string)n.n_name, "MostarNota", new { id = n.id }, new { @class = " ", @target = "_blank" }) </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+ 
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_EMP.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_ITEM.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_ITEM.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cad_Situacao.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cad_Situacao.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IN_LINHA_MOVEL.DESCS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IN_LINHA_MOVEL.DESCS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IN_LINHA_MOVEL1.DESCS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IN_LINHA_MOVEL1.DESCS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.serial_number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.serial_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.imei)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.imei)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.imei2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.imei2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DATA_COMPRA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DATA_COMPRA)
+        </dd>
+
+        <dt>
+           Termos / Notas fiscais
+        </dt>
+
+        <dd>
+            <label> <a href="" data-toggle="modal" data-target="#VerNotas">Ver Detalhes</a></label>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.info)
+        </dd>
+    
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }, new { @class = "  btn btn-warning btn-sm" })
+    @Html.ActionLink("Historico ", "HistoricoSmartFone", new { id = Model.serial_number }, new { @class = "btn btn-default btn-sm" })
+    @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+</p>

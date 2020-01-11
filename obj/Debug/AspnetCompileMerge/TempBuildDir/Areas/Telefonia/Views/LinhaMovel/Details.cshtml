@@ -1,0 +1,65 @@
+﻿@model IntraGriegHomolog.Models.IN_LINHA_MOVEL
+
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_EMP.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cad_Situacao.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cad_Situacao.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DESCS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESCS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ICCID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ICCID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo_plano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipo_plano)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.custo_aparelho_plano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.custo_aparelho_plano)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID }, new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm" })
+    @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+</p>

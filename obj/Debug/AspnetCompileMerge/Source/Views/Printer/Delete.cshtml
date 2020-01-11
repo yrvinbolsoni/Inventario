@@ -1,0 +1,88 @@
+﻿@model IntraGriegHomolog.Models.IN_PRINTER
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Deletar</h2>
+
+<h3>Tem certeza que deseja excluir isso ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_DEPT.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_DEPT.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_EMP.descs)
+        </dd>
+
+        <dt>
+            Modelo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_ITEM.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cad_Situacao.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cad_Situacao.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SERIAL_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SERIAL_NO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.APELIDO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.APELIDO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.info)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm" /> |
+        @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default  btn-sm " })
+
+    </div>
+    }
+</div>

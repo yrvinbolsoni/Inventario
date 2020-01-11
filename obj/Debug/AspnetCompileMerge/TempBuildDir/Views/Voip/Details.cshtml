@@ -1,0 +1,66 @@
+﻿@model IntraGriegHomolog.Models.IN_VOIP
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>IN_VOIP</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_EMP.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_ITEM.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_ITEM.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cad_Situacao.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cad_Situacao.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.passwd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.passwd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ip)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ip)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INFO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.INFO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ramal }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

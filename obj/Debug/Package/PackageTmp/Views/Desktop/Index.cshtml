@@ -1,0 +1,133 @@
+﻿@model IEnumerable<IntraGriegHomolog.Models.ViewModels.DesktopColaboradorViewModel>
+
+@{
+    ViewBag.Title = "Desktop";
+}
+
+
+@section Scripts {
+    <script>
+        // nome para o ajax URL =>  /Inventario
+        // nome para o ajax URL Develop => /Desktop/
+
+        function ValorDrop(valor) {  /// pesquisa drop ajax
+            $.ajax({
+                type: "GET",
+                url: "/Inventario/Desktop/getDepartment?p=" + valor,
+                data: "{}",
+                success: function (data) {
+                    var row = '<option value="-1">Todas os Departamentos</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        row += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                    }
+                    $("#departmentsDropdown").html(row);
+                }
+            });
+        }
+    </script>
+}
+<h2>Controle de Computadores</h2>
+
+@*Mensagem erro*@
+@if (TempData["erro"] != null)
+{
+    <div class="@TempData["TypeErro"]" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <span style="color:black">  @TempData["erro"]  </span>
+    </div>
+}
+<hr />
+<table>
+    @using (Html.BeginForm("index", "Desktop", FormMethod.Post))
+    {
+        <tr>
+            <th style="padding-right: 10px;"> @Html.DropDownList("emp", (IEnumerable<SelectListItem>)ViewBag.emp, new { @class = "form-control", @id = "emp", @onchange = "ValorDrop(this.value)" })  </th>
+            <th style="padding-right: 10px;"> <select class="form-control" id="departmentsDropdown" name="departmentsDropdown"><option value="-1">Todas os Departamentos</option></select>    </th>
+            <th style="padding-right: 10px;"> @Html.Editor("UserName", new { htmlAttributes = new { @class = "form-control", @placeholder = "UserName" } })          </th>
+            <th style="padding-right: 10px;"> @Html.Editor("Identificador", new { htmlAttributes = new { @class = "form-control", @placeholder = "Identificador" } })</th>
+            <th style="padding-right: 10px;"> @Html.Editor("KeyOffice", new { htmlAttributes = new { @class = "form-control", @placeholder = "KeyOffice" } })        </th>
+            <th style="padding-right: 10px;"> @Html.Editor("KeySo", new { htmlAttributes = new { @class = "form-control", @placeholder = "KeySo" } })                </th>
+            <th style="padding-right: 10px;"> <button type="submit" class="glyphicon glyphicon-search  btn btn-primary btn-sm"></button>                            </th>
+        </tr>
+    }
+</table>
+<hr />
+<hr />
+
+@{
+    if (Model.Count() > 0)
+    {
+        @*@Html.Partial("_PopupEdit", Model )*@
+    }
+
+}
+
+<p>
+    @Html.ActionLink(" Novo", "Create", null, new { @class = "glyphicon glyphicon-plus btn btn-primary btn-sm" })
+</p>
+<div style="display:@( Model.Count() > 0 ? "block" : "none")">
+
+    @*o modelo inicia com o modelo zerado*@
+
+    <table class="table table-hover" style="display:@((TempData["erro"] == null || Model.Count() > 0)   ? "block" : "none")">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Empresa)
+            </th>
+            <th>Dep </th>
+            <th>
+                @Html.DisplayNameFor(model => model.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Identificador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Keyofice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeySo)
+            </th>
+
+
+            <th>Editar</th>
+            <th>Detalhes</th>
+        </tr>
+</div>
+
+@foreach (var item in Model) /// fazer operador ternario para mostrar todos os itens da tabelinha em vemelho
+{
+    <tr class="@(item.situacao.Equals(2)? "danger" : " ")">
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Empresa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Departamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Identificador)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modeloDesk)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Keyofice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KeySo)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm" })
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Details", new { id = item.id }, new { @class = "glyphicon glyphicon-eye-open btn btn-primary btn-sm" })
+        </td>
+    </tr>
+}
+</table>

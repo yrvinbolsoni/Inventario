@@ -1,0 +1,71 @@
+﻿@model IntraGriegHomolog.Models.IN_LINHA_MOVEL
+
+@{
+    ViewBag.Title = "Deletar";
+}
+
+<h2>Deletar</h2>
+
+<h3>Tem certeza que deja excluir isso ?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_EMP.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cad_Situacao.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cad_Situacao.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DESCS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESCS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ICCID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ICCID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo_plano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipo_plano)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.custo_aparelho_plano)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.custo_aparelho_plano)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Deletar" class="btn btn-danger btn-sm" /> |
+        @Html.ActionLink("Cancelar", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+    </div>
+    }
+</div>

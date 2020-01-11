@@ -1,0 +1,94 @@
+﻿@model IntraGriegHomolog.Models.IN_LINHA_MOVEL
+
+@{
+    ViewBag.Title = "Nova Linha movel";
+}
+
+<h2>Nova linha movel</h2>
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EMPID, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("EMPID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EMPID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.DESCS, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.DESCS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DESCS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ICCID, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.ICCID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ICCID, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.situacao, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("situacao", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.situacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.custo_aparelho_plano, htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.custo_aparelho_plano, new { @class = "form-control", @cols = 80, @rows = 5 })
+                @Html.ValidationMessageFor(model => model.custo_aparelho_plano, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.tipo_plano, htmlAttributes: new { @class = "control-label  " })
+                @Html.TextAreaFor(model => model.tipo_plano, new { @class = "form-control", @cols = 80, @rows = 5 })
+                @Html.ValidationMessageFor(model => model.tipo_plano, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" />
+                @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

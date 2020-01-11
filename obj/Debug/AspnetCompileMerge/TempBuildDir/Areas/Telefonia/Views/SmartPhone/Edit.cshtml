@@ -1,0 +1,310 @@
+﻿@model IntraGriegHomolog.Models.IN_SMARTPHONE
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+
+<script>
+    // nome para o ajax URL =>   /Inventario/Telefonia/
+    // nome para o ajax URL Develop => /SmartPhone/
+
+    function ValorDrop(valor) {  /// pesquisa drop ajax
+        $.ajax({
+            type: "GET",
+            url: "/Inventario/Telefonia/SmartPhone/getUserEmpresa?emp=" + valor,
+            data: "{}",
+            success: function (data) {
+                var row;
+                for (var i = 0; i < data.length; i++) {
+                    row += '<option value="' + data[i].UsuarioId + '">' + data[i].UsuarioName + '</option>';
+                }
+                $("#UserName").html(row);
+                AtualizaLinha(valor)
+            }
+        });
+    }
+
+    function AtualizaLinha(valor) {
+        $.ajax({
+            type: "GET",
+            url: "/Inventario/Telefonia/SmartPhone/getLinhaPorEmp?emp=" + valor,
+            data: "{}",
+            success: function (data) {
+                var row;
+                for (var i = 0; i < data.length; i++) {
+                    row += '<option value="' + data[i].idLinhaMovel + '">' + data[i].desc + '</option>';
+                }
+                $("#linha_movel").html(row);
+                $("#linha_movel2").html(row);
+
+                // atualiza valor dos drop com valor de pesquisa
+                $('#linha_movel').trigger('chosen:updated');
+                $('#linha_movel2').trigger('chosen:updated');
+
+
+            }
+        });
+    }
+
+</script>
+<h2>Editar</h2>
+@*Modal para  vizualização da lista Dos termos*@
+<div class="modal fade" id="VerNotas" tabindex="-1" role="dialog" aria-labelledby="Vizualizar Notas Fiscais e Termos">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Vizualizar Notas Fiscais e Termos</h4>
+            </div>
+            <div class="modal-body">
+                @if (ViewBag.Termo != null || ViewBag.Notas != null)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome do arquivo</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.Termo != null)
+                            {
+                                <tr class="table-active">
+                                    <td>@Html.ActionLink((string)ViewBag.Termo.TERM_NAME, "MostrarTermo", new { id = Model.id }, new { @class = " ", @target = "_blank" }) </td>
+                                    <td>@Html.ActionLink(" ", "RemoverTermo", new { id = Model.id }, new { @class = "glyphicon glyphicon-remove", @style = "color:red", onclick = "return confirm('Tem certeza de que deseja excluir este item ? ');" })</td>
+                                </tr>
+                            }
+
+                            @if (ViewBag.Notas != null)
+                            {
+                                foreach (var n in ViewBag.Notas)
+                                {
+                                    <tr>
+                                        <td>@Html.ActionLink((string)n.n_name, "MostarNota", new { id = n.id }, new { @class = " ", @target = "_blank" }) </td>
+                                        <td>@Html.ActionLink(" ", "RemoverNota", new { id = n.id, IdSmart = Model.id }, new { @class = "glyphicon glyphicon-remove", @style = "color:red", onclick = "return confirm('Tem certeza de que deseja excluir este item ? ');" })</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                }
+
+
+                @using (Html.BeginForm("AdicionarNotaTermo", "SmartPhone", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="SmartId" name="SmartId" value="@(Model.id)" />
+                    <div class=@(ViewBag.Termo != null ? "hidden" : "")>
+
+                        <div class="row">
+                            <h4 style="padding-left: 20px;"> Adicionar Termo</h4>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Apelido", htmlAttributes: new { @class = "control-label " })
+                                    <input type="text" id="ApelidoTermo" name="ApelidoTermo" class="form-control" placeholder="Apelido" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Adicionar Termo", htmlAttributes: new { @class = "control-label" })
+                                    <input type="file" name="postedFileSmartFone" id="postedFileSmartFone" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    // nota fiscal
+                    <div class="row">
+                        <h4 style="padding-left: 20px;"> Adicionar Nota Fiscal</h4>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.Label("Apelido", htmlAttributes: new { @class = "control-label " })
+                                <input type="text" id="ApelidoNota" name="ApelidoNota" class="form-control" placeholder="N nota_Software_ServiceTag.pdf" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.Label("Adicionar Nota", htmlAttributes: new { @class = "control-label" })
+                                <input type="file" name="postedFileNota" id="postedFileNota" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
+                        <input type="submit" value="Adicionar" class="btn btn-success" />
+                    </div>
+                }
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group" style="display:none ">
+        @Html.DropDownList("model", null, htmlAttributes: new { @class = "form-control" })
+        @Html.EditorFor(model => model.serial_number, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        @*********************************************** Linha 1*@
+        <div class="row">
+            <div class="col-lg-3">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EMP, htmlAttributes: new { @class = "control-label  " })
+                    @Html.DropDownList("EMP", null, htmlAttributes: new { @class = "form-control", @onchange = "ValorDrop(this.value)" })
+                    @Html.ValidationMessageFor(model => model.EMP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.Label("User Name", htmlAttributes: new { @class = "control-label  " })
+                    <div class=" ">
+                        @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)TempData["DropUser"], new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.model, htmlAttributes: new { @class = "control-label  " })
+                    @Html.DropDownList("model", null, htmlAttributes: new { @class = "form-control", @disabled = "true" })
+
+                    @Html.ValidationMessageFor(model => model.model, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.serial_number, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.serial_number, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
+
+                    @Html.ValidationMessageFor(model => model.serial_number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        @**************************************************** linha 2*@
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.imei, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.imei, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.imei, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.imei2, htmlAttributes: new { @class = "control-label  " })
+                    @Html.EditorFor(model => model.imei2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.imei2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.linha_movel, htmlAttributes: new { @class = "control-label  " })
+                    @Html.DropDownList("linha_movel", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.linha_movel, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.linha_movel2, htmlAttributes: new { @class = "control-label  " })
+                    @Html.DropDownList("linha_movel2", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.linha_movel2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        @******************************************* Linha 3*@
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DATA_COMPRA, htmlAttributes: new { @class = "control-label " })
+                    <input type="date" id="DATA_COMPRA" name="DATA_COMPRA" class="form-control " value="@Model.DATA_COMPRA.Date.ToString("yyyy/MM/dd").Replace('/', '-')" />
+                    @Html.ValidationMessageFor(model => model.DATA_COMPRA, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.situacao, htmlAttributes: new { @class = "control-label " })
+                    @Html.DropDownList("situacao", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.situacao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.Label("Termo / Nota fiscal", htmlAttributes: new { @class = "control-label " })
+                    <br />
+                    <label> <a href="" data-toggle="modal" data-target="#VerNotas">Adicionar / Detalhes</a></label>
+
+                    @if (TempData["Erro"] != null)
+                    {
+                        <span style="color:red">@TempData["Erro"] </span>
+                    }
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.info, "Informação", htmlAttributes: new { @class = "control-label  " })
+                    @Html.TextAreaFor(model => model.info, new { @class = "form-control", @cols = 80, @rows = 5 })
+                    @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <input type="submit" value="Salvar" class="btn btn-success btn-sm" />
+                    @Html.ActionLink("Detalhes ", "Details", new { id = Model.id }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("#linha_movel").chosen();
+    $("#linha_movel2").chosen();
+
+    </script>
+
+}

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<IntraGriegHomolog.Models.CAD_EMP>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Empresa</h2>
+
+<p>
+    @Html.ActionLink(" Novo", "Create", null, new { @class = "glyphicon glyphicon-plus btn btn-primary btn-sm" })
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CAD_LOCAL.descs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.descs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cnpj)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CAD_LOCAL.descs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.descs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cnpj)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm" }) |
+            @Html.ActionLink(" ", "Details", new { id = item.id }, new { @class = "glyphicon  glyphicon-eye-open btn btn-primary btn-sm" }) |
+            @Html.ActionLink(" ", "Delete", new { id = item.id }, new { @class = "glyphicon glyphicon glyphicon-remove  btn btn-danger btn-sm" })
+        </td>
+    </tr>
+}
+
+</table>

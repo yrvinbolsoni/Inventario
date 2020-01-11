@@ -1,0 +1,72 @@
+﻿@model IEnumerable<IntraGriegHomolog.Models.IN_LINHA_MOVEL>
+
+@{
+    ViewBag.Title = "Linha Movel";
+}
+
+<h2>Linha Movel</h2>
+
+
+@*Mensagem erro*@
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+ 
+<hr />
+<table>
+    @using (Html.BeginForm("index", "LinhaMovel", FormMethod.Post))
+    {
+        <tr>
+            <th style="padding-right: 10px;"> @Html.DropDownList("emp", (IEnumerable<SelectListItem>)ViewBag.emp, new { @class = "form-control", @style = "font-size:12px", @id = "emp", @onchange = "ValorDrop(this.value)" })  </th>
+            <th style="padding-right: 10px;"> @Html.Editor("Numero", new { htmlAttributes = new { @class = "form-control", @placeholder = "Nº Telefônico " } })</th>
+            <th style="padding-right: 10px;"> @Html.Editor("ICCID", new { htmlAttributes = new { @class = "form-control", @placeholder = "ICCID" } })        </th>
+            <th style="padding-right: 10px;"> <button type="submit" class="glyphicon glyphicon-search  btn btn-primary btn-sm"></button>                            </th>
+        </tr>
+    }
+</table>
+<hr />
+<p>
+    @Html.ActionLink(" Novo", "Create", null, new { @class = "glyphicon glyphicon-plus btn btn-primary btn-sm" })
+</p>
+<div style="display:@( Model.Count() > 0 ? "block" : "none")">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DESCS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ICCID)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="@(item.situacao.Equals(2)? "danger" : " ")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CAD_EMP.descs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DESCS)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ICCID)
+                </td>
+
+                <td>
+                    @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm" })
+                    @Html.ActionLink(" ", "Details", new { id = item.ID }, new { @class = "glyphicon glyphicon-eye-open btn btn-primary btn-sm" })
+                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "glyphicon glyphicon glyphicon-remove  btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

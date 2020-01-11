@@ -1,0 +1,84 @@
+﻿@model IEnumerable<IntraGriegHomolog.Models.IN_PRINTER>
+
+@{
+    /**/
+
+    ViewBag.Title = "Impressoras";
+}
+
+<h2>Impressoras</h2>
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+
+<hr />
+@using (Html.BeginForm("Index", "Printer", FormMethod.Post))
+{
+    <table>
+        @Html.AntiForgeryToken()
+        <tr>
+            <th style="padding-right: 25px;"> @Html.DropDownList("emp", (IEnumerable<SelectListItem>)ViewBag.emp, new { @class = "form-control", @id = "emp", @onchange = "ValorDrop(this.value)" })  </th>
+            <th style="padding-right: 25px;"> @Html.Editor("departamentos", new { htmlAttributes = new { @class = "form-control", @placeholder = "Departamentos" } })          </th>
+            <th style="padding-right: 25px;"> @Html.Editor("Ip", new { htmlAttributes = new { @class = "form-control", @placeholder = "IP", } })</th>
+
+            <th style="padding-right: 10px;"> <button type="submit" class="glyphicon glyphicon-search  btn btn-primary btn-sm"></button>                            </th>
+        </tr>
+    </table>
+    <hr />
+}
+@Html.ActionLink(" Novo", "Create", null, new { @class = "glyphicon glyphicon-plus btn btn-primary btn-sm" })
+<br /><br />
+<div style="display:@(Model.Count() > 0 ?"block":"none")">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CAD_DEPT.descs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SERIAL_NO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.APELIDO)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="@(item.situacao.Equals(2)?"danger":"")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CAD_DEPT.descs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CAD_EMP.descs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SERIAL_NO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.APELIDO)
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil btn btn-warning btn-sm" }) |
+                    @Html.ActionLink("Historico", "Historico", new { id = item.ID }, new { @class = " btn btn-primary btn-sm" })
+                </td>
+            </tr>
+
+
+        }
+
+    </table>
+</div>

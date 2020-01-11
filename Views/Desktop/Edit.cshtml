@@ -1,0 +1,333 @@
+﻿@model IntraGriegHomolog.Models.IN_DESKTOP
+
+@{
+                /**/
+
+                ViewBag.Title = "Editar";
+}
+<script>
+    // nome para o ajax URL => /Ti/Inventario
+    // nome para o ajax URL Develop => /Desktop/
+
+    function ValorDrop(valor) {  /// pesquisa drop ajax
+        $.ajax({
+            type: "GET",
+            url: "/Inventario/Desktop/BuscarUsuario?empresa=" + valor,
+            data: "{}",
+            success: function (data) {
+                var row ;
+                for (var i = 0; i < data.length; i++) {
+                    row += '<option value="' + data[i].UsuarioId + '">' + data[i].UsuarioName + '</option>';
+                }
+                $("#UserNameNovo").html(row);
+            }
+        });
+    }
+</script>
+<h2>Editar</h2>
+<hr />
+
+@*// formulario adicionar nota*@
+<div class="modal fade" id="AdicionarAnexo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Formulario anexo</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*Modal para  vizualização da lista de  notas fiscais*@
+<div class="modal fade" id="VerNotas" tabindex="-1" role="dialog" aria-labelledby="Vizualizar Notas">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Visualizar Notas</h4>
+            </div>
+            <div class="modal-body">
+                @if (ViewBag.Nota != null)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome do arquivo</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var nota in ViewBag.Nota)
+                            {
+                                <tr class="table-active">
+
+                                    <td>@Html.ActionLink((string)nota.n_name, "MostarArquivo", new { id = nota.id }, new { @class = " ", @target = "_blank" }) </td>
+                                    <td>@Html.ActionLink(" ", "RemoverAnexos", new { id = nota.id, IdDesk = Model.id }, new { @class = "glyphicon glyphicon-remove", @style = "color:red", onclick ="return confirm('Tem certeza de que deseja excluir este item ? ');" })
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                <hr />
+                @using (Html.BeginForm("AdicionarNota", "Desktop", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.Label("Adicionar Anexo", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <input type="hidden" id="DeskId" name="DeskId" value="@(Model.id)" />
+                        <input type="file" required name="postedFile" id="postedFile" />
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Apelido", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-lg-5">
+                            <input type="text" id="ApelidoNota" name="ApelidoNota" class="form-control" placeholder="N nota_Software_ServiceTag.pdf" required />
+                        </div>
+                    </div>
+                    <hr />
+                    <br />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
+                        <input type="submit" value="Adicionar" class="btn btn-success" />
+                    </div>
+                }
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group" style="display:none ">
+            @Html.EditorFor(model => model.identificador, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownList("modelo_client", (IEnumerable<SelectListItem>)ViewBag.DropDownDesktop, new { @class = "form-control", @id = "modelo_client" })
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        @*- - - - - - - - - - - - - - - - - - - - - -  row frist - - - - - - - - - - - - - - - - - - - - - - - -*@
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.Label("Empresa", htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("emp", (IEnumerable<SelectListItem>)ViewBag.DropEmp, new { @class = "form-control", @id = "emp", @onchange = "ValorDrop(this.value)" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.Label("User Name", htmlAttributes: new { @class = "control-label  " })
+                <div class=" ">
+                    @Html.DropDownList("UserNameNovo", (IEnumerable<SelectListItem>)TempData["DropUser"], new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.identificador, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.identificador, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.identificador, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.modelo_client, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("modelo_client", (IEnumerable<SelectListItem>)ViewBag.DropDownDesktop, new { @class = "form-control", disabled = "disabled", @id = "Modeldesabilitado" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        @*Row second*@
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.disco_rigido, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("disco_rigido", (IEnumerable<SelectListItem>)ViewBag.DropDownHD, new { @class = "form-control", @id = "disco_rigido" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.mem_ram, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("mem_ram", (IEnumerable<SelectListItem>)ViewBag.DropDownMemoria, new { @class = "form-control", @id = "mem_ram" })
+            </div>
+
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.monitor_client, htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("monitor_client", (IEnumerable<SelectListItem>)ViewBag.DropDownMonitor, new { @class = "form-control", @id = "monitor_client" })
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ip, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.ip, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ip, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        @*Row fourth *@
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.sis_oper, "Versão Sistema operacional", htmlAttributes: new { @class = "control-label " })
+                @Html.DropDownList("sis_oper", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.sis_oper, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.pct_office, "Versão Office", htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("pct_office", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.pct_office, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.k_so, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.k_so, new { htmlAttributes = new { @class = "Upper form-control " } })
+                @Html.ValidationMessageFor(model => model.k_so, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.k_office, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.k_office, new { htmlAttributes = new { @class = "form-control " } })
+                @Html.ValidationMessageFor(model => model.k_office, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.dt_compra, htmlAttributes: new { @class = "control-label " })
+                <input type="date" id="dt_compra" name="dt_compra" class="form-control " value="@Model.dt_compra.Value.Date.ToString("yyyy/MM/dd").Replace('/', '-')" />
+                @Html.ValidationMessageFor(model => model.dt_compra, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <div class="form-group">
+                @Html.Label("Nota Fiscal", htmlAttributes: new { @class = "control-label " })
+                <br />
+                <label> <a href="" data-toggle="modal" data-target="#VerNotas">Ver notas</a></label>
+
+                @if (TempData["Erro"] != null)
+                {
+                    <span style="color:red">@TempData["Erro"] </span>
+                }
+
+                <br />
+
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.sit, htmlAttributes: new { @class = "control-label " })
+                <div class=" ">
+                    @Html.DropDownList("sit", (IEnumerable<SelectListItem>)ViewBag.DropDownSituacao, new { @class = "form-control", @id = "sit" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.info , "Informação", htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.info, new { @class = "form-control", @cols = 80, @rows = 5 })
+                @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+            </div>
+        </div>  
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success btn-sm" />
+                @Html.ActionLink("Detalhes ", "Details", new { id = Model.id }, new { @class = "btn btn-primary btn-sm" })
+                @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            $("#ip").inputmask("mask", { "mask": "999.99.9.999" });
+        });
+
+        function forceInputUppercase(e) {
+            var start = e.target.selectionStart;
+            var end = e.target.selectionEnd;
+            e.target.value = e.target.value.toUpperCase();
+            e.target.setSelectionRange(start, end);
+        }
+
+        document.getElementById("k_so").addEventListener("keyup", forceInputUppercase, false);
+        document.getElementById("k_office").addEventListener("keyup", forceInputUppercase, false);
+
+    </script>
+}

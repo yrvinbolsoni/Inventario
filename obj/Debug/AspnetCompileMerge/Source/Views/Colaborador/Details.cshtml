@@ -1,0 +1,115 @@
+﻿@model IntraGriegHomolog.Models.CAD_COLABORADOR
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_EMP.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_EMP.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_DEPT.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_DEPT.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.passwd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.passwd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nome)
+        </dd>
+
+        <dt>
+            Perfil de usuario
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_TIPO_USER.descs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IN_VOIP.ramal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IN_VOIP.ramal)
+        </dd>
+
+        <dt>
+           Estação
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IN_DESKTOP.identificador)
+        </dd>
+
+
+        <dt>
+            Numero corporativo
+        </dt>
+
+        <dd>
+            @ViewBag.Numero
+        </dd>
+
+        <dt>
+            Modelo Celular
+        </dt>
+
+        <dd>
+            @ViewBag.Modelo
+        </dd>
+
+
+        <dt>
+            Seria Number Celular
+        </dt>
+
+        <dd>
+            @ViewBag.Serial
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })
+</p>

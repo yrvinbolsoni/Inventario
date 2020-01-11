@@ -1,0 +1,171 @@
+﻿@model IntraGriegHomolog.Models.IN_DESKTOP
+
+@{
+    ViewBag.Title = "Novo Desktop";
+}
+<h2>Novo Desktop</h2>
+
+@*Mensagem erro*@
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<hr />
+
+@using (Html.BeginForm("Create", "Desktop", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        @*//////////////////////////LINHA*@
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.emp, "Empresa", htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("emp", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.emp, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.identificador, htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.identificador, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.identificador, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.modelo_client, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("modelo_client", (IEnumerable<SelectListItem>)ViewBag.DropDownDesktop, new { @class = "form-control", @id = "modelo_client" })
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ip, htmlAttributes: new { @class = "control-label  " })
+                @Html.EditorFor(model => model.ip, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ip, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        @*//////////////////////////LINHA*@
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.disco_rigido, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("disco_rigido", (IEnumerable<SelectListItem>)ViewBag.DropDownHD, new { @class = "form-control", @id = "disco_rigido" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.mem_ram, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("mem_ram", (IEnumerable<SelectListItem>)ViewBag.DropDownMemoria, new { @class = "form-control", @id = "mem_ram" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.monitor_client, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("monitor_client", (IEnumerable<SelectListItem>)ViewBag.DropDownMonitor, new { @class = "form-control", @id = "monitor_client" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.dt_compra, htmlAttributes: new { @class = "control-label  " })
+                @Html.EditorFor(model => model.dt_compra, new { htmlAttributes = new { @class = "form-control", @type = "date", required = "required" } })
+                @Html.ValidationMessageFor(model => model.dt_compra, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @*//////////////////////////LINHA*@
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.sis_oper, "Versão Sistema operacional", htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("sis_oper", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.sis_oper, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.pct_office, "Versão Office", htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownList("pct_office", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.pct_office, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.k_so, htmlAttributes: new { @class = "control-label  " })
+                @Html.EditorFor(model => model.k_so, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.k_so, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.k_office, htmlAttributes: new { @class = "control-label  " })
+                @Html.EditorFor(model => model.k_office, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.k_office, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        @*//////////////////////////LINHA*@
+        <div class="col-lg-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.sit, htmlAttributes: new { @class = "control-label  " })
+                @Html.DropDownList("sit", (IEnumerable<SelectListItem>)ViewBag.DropDownSituacao, new { @class = "form-control", @id = "sit" })
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+
+        </div>
+
+        <div class="col-lg-3">
+
+        </div>
+
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                @Html.ActionLink("Cancelar ", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

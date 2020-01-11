@@ -1,0 +1,106 @@
+﻿
+/*Dropdowns*/
+ul {
+    list-style: disc inside;
+}
+
+ol {
+    list-style: decimal inside;
+}
+
+.no-bullet {
+    list-style: none;
+}
+
+
+.block {
+    display: block;
+    overflow: hidden;
+}
+
+.none {
+    display: none;
+}
+
+.menu {
+    margin-top: 35px;
+    text-align: right;
+}
+
+
+.menu-item {
+    display: inline-block;
+    border-radius: 5px;
+}
+
+    .menu-item:hover {
+        background: #244a72;
+    }
+
+        .menu-item:hover .menu-link {
+            color: #fff;
+        }
+
+        .menu-item:hover .menu-sub {
+            display: block;
+        }
+
+.menu-link {
+    padding: 15px 10px;
+    display: block;
+    cursor: pointer;
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: -1px;
+}
+
+.menu-sub {
+    margin-top: -5px;
+    padding: 10px 0;
+    display: none;
+    border-radius: 0 5px 5px 5px;
+    background: #244a72;
+    position: absolute;
+    z-index: 30;
+    text-align: left;
+}
+
+
+.menu-sub-link {
+    padding: 10px 20px;
+    display: block;
+    width: 220px;
+    font-size: 13px;
+    color: #fff;
+}
+
+    .menu-sub-link:hover {
+        background: #8fac03;
+    }
+/*Dropdowns fim*/
+
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}

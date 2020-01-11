@@ -1,0 +1,34 @@
+﻿@model IntraGriegHomolog.Models.CAD_ITEM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CAD_ITEM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CAD_ITEM_TYPE.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAD_ITEM_TYPE.descs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descs)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<IntraGriegHomolog.Models.IN_HISTORY>
+
+@{
+    ViewBag.Title = "Historico SmartFone";
+}
+
+<h2>Historico SmartFone</h2>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.identificador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dt)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.identificador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dt)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">Esse SmarFone ainda nao possue historico.</div>
+}
+
+@Html.ActionLink("Voltar para lista ", "VoltarList", null, new { @class = "btn btn-default btn-sm" })

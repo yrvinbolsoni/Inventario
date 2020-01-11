@@ -1,0 +1,184 @@
+﻿@model IntraGriegHomolog.Models.CAD_COLABORADOR
+
+<script>
+    // nome para o ajax URL => /Inventario
+    // nome para o ajax URL Develop => /Colaborador/
+
+
+
+    window.onload = function () {
+        // códigos JavaScript a serem executados quando a página carregar
+        var empresa = document.getElementById("emp").value;
+        ValorDrop(empresa);
+    }
+
+    function ValorDrop(valor) {  /// pesquisa drop ajax
+        $.ajax({
+            type: "GET",
+            url: "/Inventario/Colaborador/getDepartment?p=" + valor,
+            data: "{}",
+            success: function (data) {
+                var row = '<option value">Selecione um Departamentos</option>';
+                for (var i = 0; i < data.length; i++) {
+                    row += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                }
+                $("#dept").html(row);
+                RamalDrop(valor);
+            }
+        });
+
+        function RamalDrop(EmpresaID) {
+            $.ajax({
+                type: "GET",
+                url: "/Inventario/Colaborador/GetRamalPorEmpresa?p=" + EmpresaID,
+                data: "{}",
+                success: function (data) {
+                    var row = '<option value >Sem Ramal</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        row += '<option value="' + data[i].Ramal + '">' + data[i].Ramal + '</option>';
+                    }
+                    $("#ramal").html(row);
+                    DeskPorEmpresa(EmpresaID);
+                }
+            });
+        }
+
+        function DeskPorEmpresa(EmpresaID) {
+            $.ajax({
+                type: "GET",
+                url: "/Inventario//Colaborador/GetDeskPorEmp?p=" + EmpresaID,
+                data: "{}",
+                success: function (data) {
+                    var row = '<option value >Sem Desktop</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        row += '<option value="' + data[i].Id + '">' + data[i].Identificador + '</option>';
+                    }
+                    $("#desktop").html(row);
+                }
+            });
+        }
+
+    }
+</script>
+
+@{
+
+       ViewBag.Title = "Novo Colaborador";
+}
+<h2>Novo Colaborador</h2>
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="@TempData["typeMensagem"] " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>@TempData["Mensagem"]</p>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.passwd, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.passwd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.passwd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.emp, "Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("emp", null, htmlAttributes: new { @class = "form-control", @onchange = "ValorDrop(this.value)" })
+                @Html.ValidationMessageFor(model => model.emp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dept, "Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="dept" name="dept"><option value="-1">Todas os Departamentos</option></select>
+                @Html.ValidationMessageFor(model => model.dept, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ramal, "Ramal", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="ramal" name="ramal"><option value="-1">Selecione um Ramal</option></select>
+                @*@Html.DropDownList("ramal", (SelectList)ViewBag.ramal, "-- Selecione --", new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.ramal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.desktop, "Desktop", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="desktop" name="desktop"><option value="-1">Todas os Departamentos</option></select>
+                @*@Html.DropDownList("desktop", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.desktop, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo_u, "Tipo usuario", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("tipo_u", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipo_u, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo_u, "Status usuario", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.DropDownSituacao, new { @class = "form-control", @id = "status" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Voltar", "Index", null, null, new { @class = "btn btn-default" })
+                <input type="submit" value="Salvar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
