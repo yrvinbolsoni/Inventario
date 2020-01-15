@@ -1,5 +1,4 @@
 <h1 style="text-align: center;">Sistema de inventario</h1>
-<hr>
 <p>Dependencias para instal&ccedil;&atilde;o atravez do nuget</p>
 <ul>
 <li>EntityFramework</li>
